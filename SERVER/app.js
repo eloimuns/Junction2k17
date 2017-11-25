@@ -113,7 +113,19 @@ app.get('/truck/:id?', function (req, res) {
     } catch (error) {
         console.log(error);
     }
+});
 
+app.put('/addsensors/:id?', function (req, res) {
+    try {
+      console.log(req.params.id);
+      Truck.find({number: req.params.id}).populate('sensors') .exec(function (err, usr) {
+          Truck.update({number: req.params.id}, { $set: { sensors: req.body}}, function (err, tr) {
+              res.send(tr);
+          });
+      })
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 
