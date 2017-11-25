@@ -150,6 +150,18 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
 
     // CHART
     $scope.labels = [];
+    $scope.valuesH = [];
+
+    $scope.stops = ["STOP 1", "STOP 2"];
+    $scope.hoursPerday.forEach(function (t, ind) {
+        $scope.stopsPerDay["day" + ind].forEach(function (t2) {
+            if ($scope.valuesH.length <= ind){
+                $scope.valuesH[ind] = [];
+            }
+            $scope.valuesH[ind].push(t2);
+        });
+    });
+
     $scope.hoursPerday.forEach(function (t, ind) {
         $scope.labels.push("DAY " + (ind +1));
         if (t > 9){
