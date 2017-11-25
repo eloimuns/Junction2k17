@@ -8,7 +8,8 @@ var sensorSchema = new mongoose.Schema({
     sensorType: {type: String, required: true},
     valueLength: {type: Number, required: true},
     values: {type: Array, required: true},
-    topic: {type: String}
+    topic: {type: String},
+    truck: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Truck' }]
 });
 
 module.exports = mongoose.model('Sensor', sensorSchema);

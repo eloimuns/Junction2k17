@@ -20,7 +20,7 @@ app.controller('TrackDetailCtrl', function($scope, $location, $routeParams, Serv
     Service.getTrack($routeParams.id).then(function(success) {
       if (success){
         if (success.data){
-          $scope.track = success.data[0];
+          $scope.track = success.data;
         }
       }
     })

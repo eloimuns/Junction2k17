@@ -119,7 +119,7 @@ app.get('/sensors', function (req, res) {
 app.get('/truck/:id?', function (req, res) {
     try {
       console.log(req.params.id);
-      Truck.find({number: req.params.id}).populate('sensors') .exec(function (err, usr) {
+      Truck.findOne({number: req.params.id}).populate('sensors').exec(function (err, usr) {
       res.send(usr);
     })
     } catch (error) {
@@ -129,38 +129,34 @@ app.get('/truck/:id?', function (req, res) {
 
 app.post('/addsensors/:id?', function (req, res) {
     try {
-      console.log(req.params.id);
-      Truck.find({number: req.params.id}).populate('sensors') .exec(function (err, truck) {
-          var sensor_list = [];
-          console.log(req.body.length);
+        var Sensors = [];
+      Truck.findOne({number: req.params.id}).populate('sensors').exec(function (err, truck) {
+
           for (var i = 0; i < req.body.length; i++)
           {
-            var sensor = new Sensor({
-
+            var sensor = Sensors[i] = new Sensor({
               sensorType: req.body[i].sensorType,
               valueLength: req.body[i].valueLength,
               values: req.body[i].values,
               topic: req.body[i].topic
             });
-            //console.log(sensor);
-            sensor.save(function (err, s) {
-                  if (err) {
-                    console.log(err);
-                    return err;
-                  }
-                  sensor_list.push(mongoose.Types.ObjectId(s._id));
-            });
-            if (i == req.body.length -1){
-              console.log("ASDFASDFASDF")
-              Truck.update({number: req.params.id}, { $push: { sensors: sensor_list}}, function (err, tr) {
-                  res.send(tr);
+
+              sensor.save(function(err) {
+
+            }).then(function(a) {
+                  truck.sensors.push(a._doc);
+                    if (Sensors.length == truck.sensors.length){
+                        truck.save(function (err) {
+
+                        });
+                    }
+
               });
-            }
           }
-
-
+          res.send("OK")
       })
     } catch (error) {
+        return res.send("ERROR")
         console.log(error);
     }
 });
