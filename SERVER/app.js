@@ -118,7 +118,6 @@ app.get('/sensors', function (req, res) {
 
 app.get('/truck/:id?', function (req, res) {
     try {
-      console.log(req.params.id);
       Truck.findOne({number: req.params.id}).populate('sensors').exec(function (err, usr) {
       res.send(usr);
     })
