@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 var compression = require('compression');
 var mongoose = require('mongoose');
 var Truck = require('./models/truck');
+var Sensor = require('./models/sensor');
 
 var router = require('./routes/index');
 var logger = require('./routes/utils/loggerfactory');
@@ -104,6 +105,17 @@ app.get('/trucks', function (req, res) {
 
 });
 
+app.get('/sensors', function (req, res) {
+    try {
+      Sensor.find({}).exec(function (err, usr) {
+        res.send(usr);
+      })
+    } catch (error) {
+        console.log(error);
+    }
+
+});
+
 app.get('/truck/:id?', function (req, res) {
     try {
       console.log(req.params.id);
@@ -115,13 +127,38 @@ app.get('/truck/:id?', function (req, res) {
     }
 });
 
-app.put('/addsensors/:id?', function (req, res) {
+app.post('/addsensors/:id?', function (req, res) {
     try {
       console.log(req.params.id);
-      Truck.find({number: req.params.id}).populate('sensors') .exec(function (err, usr) {
-          Truck.update({number: req.params.id}, { $set: { sensors: req.body}}, function (err, tr) {
-              res.send(tr);
-          });
+      Truck.find({number: req.params.id}).populate('sensors') .exec(function (err, truck) {
+          var sensor_list = [];
+          console.log(req.body.length);
+          for (var i = 0; i < req.body.length; i++)
+          {
+            var sensor = new Sensor({
+
+              sensorType: req.body[i].sensorType,
+              valueLength: req.body[i].valueLength,
+              values: req.body[i].values,
+              topic: req.body[i].topic
+            });
+            //console.log(sensor);
+            sensor.save(function (err, s) {
+                  if (err) {
+                    console.log(err);
+                    return err;
+                  }
+                  sensor_list.push(mongoose.Types.ObjectId(s._id));
+            });
+            if (i == req.body.length -1){
+              console.log("ASDFASDFASDF")
+              Truck.update({number: req.params.id}, { $push: { sensors: sensor_list}}, function (err, tr) {
+                  res.send(tr);
+              });
+            }
+          }
+
+
       })
     } catch (error) {
         console.log(error);
