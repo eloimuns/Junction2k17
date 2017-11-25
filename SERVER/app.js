@@ -73,6 +73,7 @@ app.post('/addtruck', function (req, res) {
           name: truk.name,
           delivery: truk.delivery,
           date: truk.date,
+          status: "Pending",
           mintemp: truk.mintemp,
           maxtemp: truk.maxtemp,
           minpressure: truk.minpressure,

@@ -7,6 +7,7 @@ var truckSchema = new mongoose.Schema({
     name: {type: String, required: true},
     delivery: {type: String, required: true},
     date: {type: Date, required: true},
+    status: {type: String, required: true},
     mintemp: {type: Number},
     maxtemp: {type: Number},
     minpressure: {type: Number},
