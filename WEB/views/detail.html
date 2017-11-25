@@ -15,7 +15,7 @@
       <button type="submit" class="btn btn-default" ng-click="tooglePasteArea()">Add Sensor Data</button>
       <button type="submit" class="btn btn-default" ng-click="toogleTableArea()">Show Sensor Data</button>
     </div>
-    <div class="col-xs-6 ">
+    <div class="col-xs-6" ng-show="track.status == 'Pending'">
       <button type="submit" class="btn btn-success pull-right" ng-click="submit()" style="margin-left: 10px;">Submit</button>
       <button type="submit" class="btn btn-danger pull-right" ng-click="decline()">Decline</button>
     </div>

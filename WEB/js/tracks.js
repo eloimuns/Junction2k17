@@ -32,6 +32,15 @@ app.controller('TrackCtrl', function($scope, $location, $rootScope, Service) {
       if (success){
         if (success.data){
           $scope.trackList = success.data;
+          $scope.trackList.forEach(function (t) {
+            if (t.status == 'Pending'){
+              t.color = "black";
+            } else if (t.status == "Accepted"){
+              t.color = "#28a745";
+            } else {
+              t.color = "red";
+            }
+          })
         }
       }
     })
