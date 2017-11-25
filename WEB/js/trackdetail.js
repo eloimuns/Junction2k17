@@ -1,10 +1,5 @@
 app.controller('TrackDetailCtrl', function($scope, $location, $routeParams, Service) {
 
-
-  $scope.back = function(track) {
-    $location.path('/');
-  }
-
   $scope.tooglePasteArea = function(){
     $scope.showPasteArea = !$scope.showPasteArea;
   }
@@ -15,6 +10,7 @@ app.controller('TrackDetailCtrl', function($scope, $location, $routeParams, Serv
         if (success.data){
           $scope.init();
         }
+      }
     })
   }
 
@@ -24,7 +20,7 @@ app.controller('TrackDetailCtrl', function($scope, $location, $routeParams, Serv
     Service.getTrack($routeParams.id).then(function(success) {
       if (success){
         if (success.data){
-          $scope.track = success.data;
+          $scope.track = success.data[0];
         }
       }
     })
