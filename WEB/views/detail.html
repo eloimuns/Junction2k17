@@ -10,37 +10,10 @@
     <span ng-repeat="warn in warnings" >{{warn}}<br/></span>
   </div>
   <div class="row">
-    <div class="form-group col-xs-6">
-      <button type="submit" class="btn btn-default" ng-click="goBack()">Back</button>
-    </div>
-  </div>
-  <form>
-    <div class="row">
-      <div class="form-group col-xs-6 col-md-6">
-        <ul>
-          <li><strong>Tracking name : </strong> {{track.name}}</li>
-          <li><strong>Delivery address : </strong> {{track.delivery}}</li>
-          <li><strong>Min temp: </strong> {{track.mintemp}}</li>
-          <li><strong>Max temp: </strong> {{track.maxtemp}}</li>
-          <li><strong>Min pressure: </strong> {{track.minpressure}}</li>
-          <li><strong>Max pressure: </strong> {{track.maxpressure}}</li>
-        </ul>
-      </div>
-      <div class="form-group col-xs-6 col-md-6">
-        <ul>
-          <li><strong>Tracking number : </strong> {{track.number}}</li>
-          <li><strong>Delivery date : </strong> {{track.date | date:'dd/MM/yyyy hh:mm'}}</li>
-          <li><strong>Is Fragile : </strong> {{track.isFragile == true ? 'Yes' : 'No'}}</li>
-          <li><strong>Is Food : </strong> {{track.isFood == true ? 'Yes' : 'No'}}</li>
-          <li><strong>Is Pressure : </strong> {{track.isPressure == true ? 'Yes' : 'No'}}</li>
-        </ul>
-      </div>
-    </div>
-  </form>
-  <div class="row">
     <div class="col-xs-6">
-      <button type="submit" class="btn btn-warning" ng-click="tooglePasteArea()">Add Sensor Data</button>
-      <button type="submit" class="btn btn-warning" ng-click="toogleTableArea()">Show Sensor Data</button>
+      <button type="submit" class="btn btn-default" ng-click="goBack()">Back</button>
+      <button type="submit" class="btn btn-default" ng-click="tooglePasteArea()">Add Sensor Data</button>
+      <button type="submit" class="btn btn-default" ng-click="toogleTableArea()">Show Sensor Data</button>
     </div>
     <div class="col-xs-6 ">
       <button type="submit" class="btn btn-success pull-right" ng-click="submit()" style="margin-left: 10px;">Submit</button>
@@ -81,6 +54,49 @@
       </table>
     </div>
   </div>
+  <form>
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+        <h3>Contract info:</h3>
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <h3>Truck info:</h3>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-xs-6 col-md-2">
+        <ul>
+          <li><strong>Tracking name : </strong> {{track.name}}</li>
+          <li><strong>Delivery address : </strong> {{track.delivery}}</li>
+          <li><strong>Min temp: </strong> {{track.mintemp}}</li>
+          <li><strong>Max temp: </strong> {{track.maxtemp}}</li>
+          <li><strong>Min pressure: </strong> {{track.minpressure}}</li>
+          <li><strong>Max pressure: </strong> {{track.maxpressure}}</li>
+        </ul>
+      </div>
+      <div class="form-group col-xs-6 col-md-2">
+        <ul>
+          <li><strong>Tracking number : </strong> {{track.number}}</li>
+          <li><strong>Delivery date : </strong> {{track.date | date:'dd/MM/yyyy hh:mm'}}</li>
+          <li><strong>Is Fragile : </strong> {{track.isFragile == true ? 'Yes' : 'No'}}</li>
+          <li><strong>Is Food : </strong> {{track.isFood == true ? 'Yes' : 'No'}}</li>
+          <li><strong>Is Pressure : </strong> {{track.isPressure == true ? 'Yes' : 'No'}}</li>
+        </ul>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="form-group col-xs-6 col-md-3">
+        <ul>
+          <li><strong>Truck : </strong> Mercedes-Benz Actros</li>
+          <li><strong>Engine : </strong> OM501 LA V6 435hp</li>
+          <li><strong>Consumtion : </strong> 20L every 100Km</li>
+          <li><strong>Emissions : </strong> 528g CO2/Km </li>
+          <li><strong>Website : </strong> <a href="https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjat5Sl49rXAhULOJoKHZCiBMgQFggnMAA&url=https%3A%2F%2Fwww.mercedes-benz.co.za%2Fcontent%2Fmedia_library%2Fsouth_africa%2Fmpc%2Ftrucks_ng%2Factros_spec_brochure.object-Single-MEDIA.download.tmp%2FMBSA%2BActros%2BSpecification%2BFA%255B1%255D.pdf&usg=AOvVaw3C_aFx9_CfgwARc3cgYXUT">Link</a></li>
+        </ul>
+      </div>
+    </div>
+  </form>
+
+
   <div class="row">
     <div class="col-md-4">
       <h3>Hours per day: </h3>

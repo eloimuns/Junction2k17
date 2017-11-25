@@ -173,6 +173,9 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                 if (t2 > 45) {
                     err = false;
                 }
+                if (t2 < 15){
+                    $scope.warningsDriver.push("Driver did a small stop");
+                }
             });
             if (err){
                 $scope.errorsDriver.push("Driver didn't stop 45 minutes every 4:30h.")
