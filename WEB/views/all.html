@@ -1,0 +1,21 @@
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Delivery Date</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in trackList track by $index">
+      <td>{{row.number}}</td>
+      <td>{{row.name}}</td>
+      <td>{{row.date }}</td>
+      <td>{{row.status}}</td>
+      <td><a ng-click="goTo(row)" href="">View Details</a></td>
+    </tr>
+  </tbody>
+</table>
