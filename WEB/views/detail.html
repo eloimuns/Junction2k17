@@ -59,8 +59,11 @@
       <div class="col-xs-12 col-md-6">
         <h3>Contract info:</h3>
       </div>
-      <div class="col-xs-12 col-md-6">
+      <div class="col-xs-12 col-md-3">
         <h3>Truck info:</h3>
+      </div>
+      <div class="col-xs-12 col-md-3">
+        <h3>Deliver info:</h3>
       </div>
     </div>
     <div class="row">
@@ -91,6 +94,13 @@
           <li><strong>Consumtion : </strong> 20L every 100Km</li>
           <li><strong>Emissions : </strong> 528g CO2/Km </li>
           <li><strong>Website : </strong> <a href="https://www.google.es/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjat5Sl49rXAhULOJoKHZCiBMgQFggnMAA&url=https%3A%2F%2Fwww.mercedes-benz.co.za%2Fcontent%2Fmedia_library%2Fsouth_africa%2Fmpc%2Ftrucks_ng%2Factros_spec_brochure.object-Single-MEDIA.download.tmp%2FMBSA%2BActros%2BSpecification%2BFA%255B1%255D.pdf&usg=AOvVaw3C_aFx9_CfgwARc3cgYXUT">Link</a></li>
+        </ul>
+      </div>
+      <div class="form-group col-xs-6 col-md-3">
+        <ul>
+          <li><strong>Distance : </strong> {{distance}}KM</li>
+          <li><strong>Consumption : </strong> {{distance / 100 + 20}}L</li>
+          <li><strong>Emissions : </strong> {{distance * 528 / 1000}}kg CO2 </li>
         </ul>
       </div>
     </div>

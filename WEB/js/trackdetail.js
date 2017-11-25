@@ -186,4 +186,9 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
 
     $scope.data = $scope.hoursPerday;
 
+    $scope.randomInterval = function(min, max) {
+        return Math.floor(Math.random()*(max-min+1)+min);
+    }
+    $scope.distance = $scope.randomInterval(500, 4000);
+
 });
