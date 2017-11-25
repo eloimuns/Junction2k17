@@ -1,12 +1,12 @@
 app.factory('Service', function ($http) {
-  var url = 'http://'
+  var url = 'http://localhost:8888'
   return {
     addTrack: function (track) {
       console.log(track)
-      return $http.post(url + '/track', track);
+      return $http.post(url + '/addTruck', track);
     },
     getTracks: function(){
-        return $http.get(url + '/track');
+        return $http.get(url + '/trucks');
     }
   }
 });

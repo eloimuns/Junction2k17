@@ -17,6 +17,14 @@ app.controller('TrackCtrl', function($scope, $location, $rootScope, Service) {
     })
   }
 
+  Service.getTracks().then(function(success) {
+    if (success){
+      if (success.data){
+        $scope.trackList = success.data;
+      }
+    }
+  })
+
   $scope.reset = function(){
     $scope.newTrack = {};
   }

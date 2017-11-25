@@ -20,6 +20,12 @@ var truckCntr = require('./controllers/truckController')
 // Enable transport compression
 app.use(compression());
 
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token, userData");
+    next();
+});
+
 // Serve static assets from the app folder. This enables things like javascript
 // and stylesheets to be loaded as expected. Analog to nginx.
 app.use('/', express.static(path.join(__dirname, 'public')));
@@ -75,7 +81,6 @@ app.post('/addtruck', function (req, res) {
           isFood: truk.isFood,
           isPressure: truk.isPressure
       });
-      console.log(req);
       tr.save(function (err) {
             if (err) return err;
             res.send({
@@ -90,9 +95,8 @@ app.post('/addtruck', function (req, res) {
 app.get('/trucks', function (req, res) {
     try {
       Truck.find({}).populate('sensors') .exec(function (err, usr) {
-            console.log(usr);
-                    res.send(usr);
-                  })
+        res.send(usr);
+      })
     } catch (error) {
         console.log(error);
     }
