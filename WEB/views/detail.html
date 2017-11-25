@@ -1,3 +1,64 @@
 <div class="container">
   <button type="submit" class="btn btn-default" ng-click="back()">Back</button>
+
+  <form>
+    <div class="row">
+      <div class="form-group col-xs-6 col-md-3">
+        <label for="name">Tracking name</label>
+        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="track.name" disabled>
+      </div>
+      <div class="form-group col-xs-6 col-md-3">
+        <label for="number">Tracking number</label>
+        <input type="text" class="form-control" id="number" placeholder="Tracking number" ng-model="track.number" disabled>
+      </div>
+      <div class="form-group col-xs-6 col-md-3">
+        <label for="destination">Delivery address</label>
+        <input type="text" class="form-control" id="destination" placeholder="Delivery" ng-model="track.delivery" disabled>
+      </div>
+      <div class="form-group col-xs-6 col-md-3">
+        <label for="date">Delivery date</label>
+        <input type="datetime-local" class="form-control" id="date" placeholder="Delivery" ng-model="track.date" disabled>
+      </div>
+      <div class="form-group col-xs-6 col-md-3">
+        <label for="mintemp">Min temp °C</label>
+        <input type="text" class="form-control" id="mintemp" placeholder="Min temp" ng-model="track.mintemp" disabled>
+      </div>
+      <div class="form-group col-xs-6 col-md-3">
+        <label for="maxtemp">Max temp °C</label>
+        <input type="text" class="form-control" id="maxtemp" placeholder="Max temp" ng-model="track.maxtemp" disabled>
+      </div>
+      <div class="form-group col-xs-4 col-md-3">
+        <label for="fragile">Fragile?</label>
+        <input type="checkbox" id="fragile" ng-model="track.isFragile" disabled>
+      </div>
+      <div class="form-group col-xs-4 col-md-3">
+        <label for="food">Food?</label>
+        <input type="checkbox" id="food" ng-model="track.isFood" disabled>
+      </div>
+      <div class="form-group col-xs-4 col-md-3">
+        <label for="pressure">Pressure?</label>
+        <input type="checkbox" id="pressure" ng-model="track.isPressure" disabled>
+      </div>
+      <div class="form-group col-xs-6" ng-show="track.isPressure">
+        <label for="minpressure">Min pressure</label>
+        <input type="text" class="form-control" id="minpressure" placeholder="Min pressure" ng-model="track.minpressure" disabled>
+      </div>
+      <div class="form-group col-xs-6" ng-show="track.isPressure">
+        <label for="maxpressure">Max pressure</label>
+        <input type="text" class="form-control" id="maxpressure" placeholder="Max pressure" ng-model="track.maxpressure" disabled>
+      </div>
+    </div>
+  </form>
+  <br/>
+  <button type="submit" class="btn btn-warning" ng-click="tooglePasteArea()">Add Sensor Data</button>
+  <div class="row" ng-if="showPasteArea">
+    <div class="form-group col-xs-12" >
+      <label for="maxtemp">Pase JSON Sensor Data</label>
+      <br/>
+      <textarea rows="3" class="col-xs-12" ng-model="sensorData.data"></textarea>
+    </div>
+    <div class="form-group col-xs-12" >
+      <button type="submit" class="btn btn-primary" ng-click="save()">Submit</button>
+    </div>
+  </div>
 </div>
