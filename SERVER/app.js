@@ -104,4 +104,17 @@ app.get('/trucks', function (req, res) {
 
 });
 
+app.get('/truck/:id?', function (req, res) {
+    try {
+      console.log(req.params.id);
+      Truck.find({number: req.params.id}).populate('sensors') .exec(function (err, usr) {
+      res.send(usr);
+    })
+    } catch (error) {
+        console.log(error);
+    }
+
+});
+
+
 module.exports.server = server;
