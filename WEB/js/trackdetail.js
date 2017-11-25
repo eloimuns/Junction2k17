@@ -18,6 +18,10 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
         })
     };
 
+    $scope.goBack = function () {
+      $location.path('/');
+    };
+
     $scope.mapErrors = {
         errorMinTemp: false,
         errorMaxTemp: false,
