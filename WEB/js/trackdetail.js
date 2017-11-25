@@ -22,6 +22,26 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
       $location.path('/');
     };
 
+    $scope.submit = function () {
+        Service.acceptTransaction($routeParams.id).then(function (success) {
+            $scope.init();
+        })
+    };
+
+    $scope.decline = function () {
+        Service.decline($routeParams.id).then(function (succ) {
+            $scope.init();
+        })
+    }
+
+    $scope.mapaErrorsETH = {
+        "temperature": 0,
+        "delay": 0,
+        "pressure": 0,
+        "light": 0,
+        "breakageAlert": 0
+    };
+
     $scope.mapErrors = {
         errorMinTemp: false,
         errorMaxTemp: false,
@@ -55,6 +75,7 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                                             $scope.mapErrors.errorMinTemp = true;
                                             $scope.errors.push("Temperature got lower than "
                                                 + $scope.track.mintemp + "ºC");
+                                            $scope.mapaErrorsETH.temperature = val;
                                         }
                                     })
                                 }
@@ -65,6 +86,7 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                                             $scope.errors.push("Temperature got higher than "
                                                 + $scope.track.maxtemp + "ºC");
                                         }
+                                        $scope.mapaErrorsETH.temperature = val;
                                     })
                                 }
                             } else if (sensor.sensorType === "GYROSCOPE") {
@@ -72,6 +94,7 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                                     if (sensor.values[2] > 45 || sensor.values[2] < -45) {
                                         $scope.mapErrors.errorGyro = true;
                                         $scope.errors.push("Cargo or container got an overturn.");
+                                        $scope.mapaErrorsETH.breakageAlert = 1;
                                     }
                                 }
                             } else if (sensor.sensorType === "ACCELEROMETER"){
@@ -83,7 +106,8 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                                                 if (acc[0] > 0.5 || acc[1] > 0.5 || acc[2] > 10 || acc[2] < 8){
                                                     $scope.mapErrors.errorFragile = true;
                                                     $scope.errors.push("The cargo probably got damaged. Check it before " +
-                                                        "accept the transaction.")
+                                                        "accept the transaction.");
+                                                    $scope.mapaErrorsETH.breakageAlert = 1;
                                                 }
                                             }
                                         })
@@ -94,7 +118,8 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                                                 if (acc[0] > 0.8 || acc[1] > 0.8 || acc[2] > 12 || acc[2] < 6){
                                                     $scope.mapErrors.errorVibration = true;
                                                     $scope.errors.push("The cargo got a heavy vibrations during the road." +
-                                                        "Check it before accept the transaction.")
+                                                        "Check it before accept the transaction.");
+                                                    $scope.mapaErrorsETH.breakageAlert = 1;
                                                 }
                                             }
                                         })
@@ -104,91 +129,102 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                             } else if (sensor.sensorType === "LIGHT"){
                                 if (!$scope.mapErrors.errorLight && sensor.values[0] > 2){
                                     $scope.mapErrors.errorLight = true;
-                                    $scope.errors.push("The cargo may had been opened during the ride.")
+                                    $scope.errors.push("The cargo may had been opened during the ride.");
+                                    $scope.mapaErrorsETH.light = 1;
                                 }
                             } else if (sensor.sensorType === "BAROMETER"){
                                 if (!$scope.mapErrors.errorPressureMin && $scope.track.isPressure && $scope.track.minpressure){
                                     if (sensor.values[1] < $scope.track.minpressure ){
                                         $scope.mapErrors.errorPressureMin = true;
                                         $scope.errors.push("The cargo got a lower pressure, " + sensor.values[1] + " BAR");
+                                        $scope.mapaErrorsETH.pressure = 1;
                                     }
                                 }
                                 if (!$scope.mapErrors.errorPressureMax && $scope.track.isPressure && $scope.track.maxpressure){
                                     if (sensor.values[1] > $scope.track.maxpressure ){
                                         $scope.mapErrors.errorPressureMax = true;
                                         $scope.errors.push("The cargo got a higher pressure, " + sensor.values[1] + " BAR");
+                                        $scope.mapaErrorsETH.pressure = 1;
                                     }
                                 }
                             }
-                        })
+                        });
+                        Service.modifyValuesEth($scope.mapaErrorsETH);
                     }
                 }
             }
-        })
-    };
-    $scope.init();
-
-
-    $scope.errorsDriver = [];
-    $scope.warningsDriver = [];
-
-    // FAKE DATA
-    $scope.hoursPerday = [
-        7, 10, 11
-    ];
-    $scope.stopsPerDay = { day0 : [45, 33, 12], day1 : [13, 45, 72], day2 : [33, 45, 66]};
-
-    $scope.checkMaxHoursPerDay = function () {
-        var ret = false;
-        $scope.hoursPerday.forEach(function (h) {
-            if (h > 8){
-                ret = true;
-            }
         });
-        return ret;
+        $scope.initFake();
     };
 
-    // CHART
-    $scope.labels = [];
-    $scope.valuesH = [];
 
-    $scope.stops = ["STOP 1", "STOP 2"];
-    $scope.hoursPerday.forEach(function (t, ind) {
-        $scope.stopsPerDay["day" + ind].forEach(function (t2) {
-            if ($scope.valuesH.length <= ind){
-                $scope.valuesH[ind] = [];
-            }
-            $scope.valuesH[ind].push(t2);
-        });
-    });
+    $scope.initFake = function () {
+        $scope.errorsDriver = [];
+        $scope.warningsDriver = [];
 
-    $scope.hoursPerday.forEach(function (t, ind) {
-        $scope.labels.push("DAY " + (ind +1));
-        if (t > 9){
-            $scope.errorsDriver.push("Driver rides " + t + "h one day.")
-        }
-        if (t > 8){
-            var err = true;
+        // FAKE DATA
+        $scope.hoursPerday = [
+            7, 10, 11
+        ];
+        $scope.stopsPerDay = { day0 : [45, 33, 12], day1 : [13, 45, 72], day2 : [33, 45, 66]};
+        // CHART
+        $scope.labels = [];
+        $scope.valuesH = [];
+
+        $scope.hoursPerday.forEach(function (t, ind) {
             $scope.stopsPerDay["day" + ind].forEach(function (t2) {
-                if (t2 > 45) {
-                    err = false;
+                if ($scope.valuesH.length <= ind){
+                    $scope.valuesH[ind] = [];
                 }
-                if (t2 < 15){
-                    $scope.warningsDriver.push("Driver did a small stop");
+                $scope.valuesH[ind].push(t2);
+            });
+        });
+
+        $scope.hoursPerday.forEach(function (t, ind) {
+            $scope.labels.push("DAY " + (ind +1));
+            if (t > 9){
+                $scope.errorsDriver.push("Driver rides " + t + "h one day.")
+            }
+            if (t > 8){
+                var err = true;
+                $scope.stopsPerDay["day" + ind].forEach(function (t2) {
+                    if (t2 > 45) {
+                        err = false;
+                    }
+                    if (t2 < 15){
+                        $scope.warningsDriver.push("At least one stop was so small.");
+                    }
+                });
+                if (err){
+                    $scope.errorsDriver.push("Driver didn't stop 45 minutes every 4:30h.")
+                }
+            }
+        });
+
+        $scope.checkMaxHoursPerDay = function () {
+            var ret = false;
+            $scope.hoursPerday.forEach(function (h) {
+                if (h > 8){
+                    ret = true;
                 }
             });
-            if (err){
-                $scope.errorsDriver.push("Driver didn't stop 45 minutes every 4:30h.")
-            }
-        }
-    });
+            return ret;
+        };
+
+        $scope.stops = ["STOP 1", "STOP 2"];
+
+        $scope.data = $scope.hoursPerday;
+
+        $scope.randomInterval = function(min, max) {
+            return Math.floor(Math.random()*(max-min+1)+min);
+        };
+        $scope.distance = $scope.randomInterval(500, 4000);
+    };
 
 
-    $scope.data = $scope.hoursPerday;
 
-    $scope.randomInterval = function(min, max) {
-        return Math.floor(Math.random()*(max-min+1)+min);
-    }
-    $scope.distance = $scope.randomInterval(500, 4000);
+
+
+    $scope.init();
 
 });
