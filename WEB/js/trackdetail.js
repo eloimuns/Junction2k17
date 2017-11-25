@@ -127,4 +127,48 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
         })
     };
     $scope.init();
+
+
+    $scope.errorsDriver = [];
+    $scope.warningsDriver = [];
+
+    // FAKE DATA
+    $scope.hoursPerday = [
+        7, 10, 11
+    ];
+    $scope.stopsPerDay = { day0 : [45, 33, 12], day1 : [13, 45, 72], day2 : [33, 45, 66]};
+
+    $scope.checkMaxHoursPerDay = function () {
+        var ret = false;
+        $scope.hoursPerday.forEach(function (h) {
+            if (h > 8){
+                ret = true;
+            }
+        });
+        return ret;
+    };
+
+    // CHART
+    $scope.labels = [];
+    $scope.hoursPerday.forEach(function (t, ind) {
+        $scope.labels.push("DAY " + (ind +1));
+        if (t > 9){
+            $scope.errorsDriver.push("Driver rides " + t + "h one day.")
+        }
+        if (t > 8){
+            var err = true;
+            $scope.stopsPerDay["day" + ind].forEach(function (t2) {
+                if (t2 > 45) {
+                    err = false;
+                }
+            });
+            if (err){
+                $scope.errorsDriver.push("Driver didn't stop 45 minutes every 4:30h.")
+            }
+        }
+    });
+
+
+    $scope.data = $scope.hoursPerday;
+
 });

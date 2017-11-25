@@ -1,60 +1,39 @@
 <div class="container">
-  <button type="submit" class="btn btn-default" ng-click="goBack()">Back</button>
   <div class="alert alert-danger" ng-if="errors.length > 0">
     <strong>Danger!</strong>
     <br/>
-    <span ng-repeat="error in errors track by $index">{{error}}</span>
+    <span ng-repeat="error in errors track by $index">{{error}}<br/></span>
   </div>
   <div class="alert alert-warning" ng-if="warnings.length > 0">
     <strong>Warning!</strong>
     <br/>
-    <span ng-repeat="warn in warnings" >{{warn}}</span>
+    <span ng-repeat="warn in warnings" >{{warn}}<br/></span>
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-6">
+      <button type="submit" class="btn btn-default" ng-click="goBack()">Back</button>
+    </div>
   </div>
   <form>
     <div class="row">
-      <div class="form-group col-xs-6 col-md-3">
-        <label for="name">Tracking name</label>
-        <input type="text" class="form-control" id="name" placeholder="Name" ng-model="track.name" disabled>
+      <div class="form-group col-xs-6 col-md-6">
+        <ul>
+          <li><strong>Tracking name : </strong> {{track.name}}</li>
+          <li><strong>Delivery address : {{track.delivery}}</strong></li>
+          <li><strong>Min temp: </strong> {{track.mintemp}}</li>
+          <li><strong>Max temp: </strong> {{track.maxtemp}}</li>
+          <li><strong>Min pressure: </strong> {{track.minpressure}}</li>
+          <li><strong>Max pressure: </strong> {{track.maxpressure}}</li>
+        </ul>
       </div>
-      <div class="form-group col-xs-6 col-md-3">
-        <label for="number">Tracking number</label>
-        <input type="text" class="form-control" id="number" placeholder="Tracking number" ng-model="track.number" disabled>
-      </div>
-      <div class="form-group col-xs-6 col-md-3">
-        <label for="destination">Delivery address</label>
-        <input type="text" class="form-control" id="destination" placeholder="Delivery" ng-model="track.delivery" disabled>
-      </div>
-      <div class="form-group col-xs-6 col-md-3">
-        <label for="date">Delivery date</label>
-        <input type="text" class="form-control" id="date" placeholder="Delivery" value="{{track.date | date:'dd/MM/yyyy hh:mm'}}" disabled>
-      </div>
-      <div class="form-group col-xs-6 col-md-3">
-        <label for="mintemp">Min temp °C</label>
-        <input type="text" class="form-control" id="mintemp" placeholder="Min temp" ng-model="track.mintemp" disabled>
-      </div>
-      <div class="form-group col-xs-6 col-md-3">
-        <label for="maxtemp">Max temp °C</label>
-        <input type="text" class="form-control" id="maxtemp" placeholder="Max temp" ng-model="track.maxtemp" disabled>
-      </div>
-      <div class="form-group col-xs-4 col-md-3">
-        <label for="fragile">Fragile?</label>
-        <input type="checkbox" id="fragile" ng-model="track.isFragile" disabled>
-      </div>
-      <div class="form-group col-xs-4 col-md-3">
-        <label for="food">Food?</label>
-        <input type="checkbox" id="food" ng-model="track.isFood" disabled>
-      </div>
-      <div class="form-group col-xs-4 col-md-3">
-        <label for="pressure">Pressure?</label>
-        <input type="checkbox" id="pressure" ng-model="track.isPressure" disabled>
-      </div>
-      <div class="form-group col-xs-6" ng-show="track.isPressure">
-        <label for="minpressure">Min pressure</label>
-        <input type="text" class="form-control" id="minpressure" placeholder="Min pressure" ng-model="track.minpressure" disabled>
-      </div>
-      <div class="form-group col-xs-6" ng-show="track.isPressure">
-        <label for="maxpressure">Max pressure</label>
-        <input type="text" class="form-control" id="maxpressure" placeholder="Max pressure" ng-model="track.maxpressure" disabled>
+      <div class="form-group col-xs-6 col-md-6">
+        <ul>
+          <li><strong>Tracking number : </strong> {{track.number}}</li>
+          <li><strong>Delivery date : </strong> {{track.date | date:'dd/MM/yyyy hh:mm'}}</li>
+          <li><strong>Is Fragile : </strong> {{track.isFragile == true ? 'Yes' : 'No'}}</li>
+          <li><strong>Is Food : </strong> {{track.isFood == true ? 'Yes' : 'No'}}</li>
+          <li><strong>Is Pressure : </strong> {{track.isPressure == true ? 'Yes' : 'No'}}</li>
+        </ul>
       </div>
     </div>
   </form>
@@ -70,9 +49,9 @@
   </div>
   <div class="row" ng-if="showPasteArea">
     <div class="form-group col-xs-12" >
-      <label for="maxtemp">Pase JSON Sensor Data</label>
+      <label for="txtarea">Pase JSON Sensor Data</label>
       <br/>
-      <textarea rows="3" class="col-xs-12" ng-model="sensorData.data"></textarea>
+      <textarea rows="3" class="col-xs-12" id="txtarea" ng-model="sensorData.data"></textarea>
     </div>
     <div class="form-group col-xs-12" >
       <button type="submit" class="btn btn-primary" ng-click="save()">Submit</button>
@@ -93,13 +72,48 @@
           <td>{{row.sensorType}}</td>
           <td>{{row.topic}}</td>
           <td>
-            <span ng-repeat="values in row.values">
+            <span ng-repeat="values in row.values track by $index">
               {{values}}
             </span>
           </td>
         </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <h2>Hours per day: </h2>
+      <div class="col-md-4">
+        <br/>
+        <ul>
+          <li ng-repeat="lbl in labels track by $index">
+            {{lbl}}: {{hoursPerday[$index]}}
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-8">
+        <canvas id="doughnut" class="chart chart-doughnut"
+                chart-data="data" chart-labels="labels"
+                chart-colors="colors">
+        </canvas>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <br/>
+      <div class="col-md-3"></div>
+      <div class="col-md-9">
+        <div class="alert alert-danger" ng-if="errorsDriver.length > 0">
+          <strong>Danger!</strong>
+          <br/>
+          <span ng-repeat="error in errorsDriver track by $index">{{error}}<br/></span>
+        </div>
+        <div class="alert alert-warning" ng-if="warningsDriver.length > 0">
+          <strong>Warning!</strong>
+          <br/>
+          <span ng-repeat="warn in warningsDriver track by $index" >{{warn}}<br/></span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
