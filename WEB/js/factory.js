@@ -9,6 +9,9 @@ app.factory('Service', function ($http) {
     },
     getTrack: function(id){
       return $http.get(url + '/truck/' + id);
+    },
+    addSensors: function(id, data){
+      return $http.put(url + '/addSensors/' + id, data)
     }
   }
 });
