@@ -26,7 +26,7 @@ app.controller('TrackCtrl', function($scope, $location, $rootScope, Service) {
   $scope.init = function(){
     $scope.viewNewRoute = false;
     $scope.newTrack = {};
-    scope.trackList = [];
+    $scope.trackList = [];
     Service.getTracks().then(function(success) {
       if (success){
         if (success.data){

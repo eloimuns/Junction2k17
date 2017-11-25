@@ -1,46 +1,48 @@
 <form>
   <div class="row">
-    <div class="form-group col-xs-6">
+    <div class="form-group col-xs-6 col-md-3">
       <label for="name">Tracking name</label>
       <input type="text" class="form-control" id="name" placeholder="Name" ng-model="newTrack.name">
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group col-xs-6 col-md-3">
       <label for="number">Tracking number</label>
       <input type="text" class="form-control" id="number" placeholder="Tracking number" ng-model="newTrack.number">
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group col-xs-6 col-md-3">
       <label for="destination">Delivery address</label>
       <input type="text" class="form-control" id="destination" placeholder="Delivery" ng-model="newTrack.delivery">
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group col-xs-6 col-md-3">
       <label for="date">Delivery date</label>
       <input type="datetime-local" class="form-control" id="date" placeholder="Delivery" ng-model="newTrack.date">
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group col-xs-6 col-md-3">
       <label for="mintemp">Min temp °C</label>
       <input type="text" class="form-control" id="mintemp" placeholder="Min temp" ng-model="newTrack.mintemp">
     </div>
-    <div class="form-group col-xs-6">
+    <div class="form-group col-xs-6 col-md-3">
       <label for="maxtemp">Max temp °C</label>
       <input type="text" class="form-control" id="maxtemp" placeholder="Max temp" ng-model="newTrack.maxtemp">
     </div>
-    <div class="form-group col-xs-12">
+    <div class="form-group col-xs-12 col-md-3">
       <label for="fragile">Fragile?</label>
       <input type="checkbox" id="fragile" ng-model="newTrack.isFragile">
     </div>
-    <div class="form-group col-xs-12">
+    <div class="form-group col-xs-12 col-md-3">
       <label for="food">Food?</label>
       <input type="checkbox" id="food" ng-model="newTrack.isFood">
     </div>
-    <div class="form-group col-xs-12">
+    <div class="form-group col-xs-12 col-md-3">
       <label for="pressure">Pressure?</label>
       <input type="checkbox" id="pressure" ng-model="newTrack.isPressure">
     </div>
-    <div class="form-group col-xs-6" ng-show="newTrack.isPressure">
+  </div>
+  <div class="row">
+    <div class="form-group col-xs-6 col-md-3" ng-show="newTrack.isPressure">
       <label for="minpressure">Min pressure</label>
       <input type="text" class="form-control" id="minpressure" placeholder="Min pressure" ng-model="newTrack.minpressure">
     </div>
-    <div class="form-group col-xs-6" ng-show="newTrack.isPressure">
+    <div class="form-group col-xs-6 col-md-3" ng-show="newTrack.isPressure">
       <label for="maxpressure">Max pressure</label>
       <input type="text" class="form-control" id="maxpressure" placeholder="Max pressure" ng-model="newTrack.maxpressure">
     </div>
