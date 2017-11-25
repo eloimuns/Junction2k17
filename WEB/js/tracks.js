@@ -10,6 +10,7 @@ app.controller('TrackCtrl', function($scope, $location, $rootScope, Service) {
       if (success){
         if (success.data){
           $scope.newTrack = {};
+          $scope.init();
         }
       }
     })

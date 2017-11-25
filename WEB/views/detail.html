@@ -1,4 +1,14 @@
 <div class="container">
+  <div class="alert alert-danger" ng-if="errors.length > 0">
+    <strong>Danger!</strong>
+    <br/>
+    <span ng-repeat="error in errors track by $index">{{error}}</span>
+  </div>
+  <div class="alert alert-warning" ng-if="warnings.length > 0">
+    <strong>Warning!</strong>
+    <br/>
+    <span ng-repeat="warn in warnings" >{{warn}}</span>
+  </div>
   <form>
     <div class="row">
       <div class="form-group col-xs-6 col-md-3">
@@ -47,7 +57,16 @@
       </div>
     </div>
   </form>
-  <button type="submit" class="btn btn-warning" ng-click="tooglePasteArea()">Add Sensor Data</button>
+  <div class="row">
+    <div class="col-xs-6">
+      <button type="submit" class="btn btn-warning" ng-click="tooglePasteArea()">Add Sensor Data</button>
+      <button type="submit" class="btn btn-warning" ng-click="toogleTableArea()">Show Sensor Data</button>
+    </div>
+    <div class="col-xs-6 ">
+      <button type="submit" class="btn btn-success pull-right" ng-click="submit()" style="margin-left: 10px;">Submit</button>
+      <button type="submit" class="btn btn-danger pull-right" ng-click="decline()">Decline</button>
+    </div>
+  </div>
   <div class="row" ng-if="showPasteArea">
     <div class="form-group col-xs-12" >
       <label for="maxtemp">Pase JSON Sensor Data</label>
@@ -56,6 +75,30 @@
     </div>
     <div class="form-group col-xs-12" >
       <button type="submit" class="btn btn-primary" ng-click="save()">Submit</button>
+    </div>
+  </div>
+  <div class="row" ng-if="showTableArea">
+    <div class="col-xs-12">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Type</th>
+          <th>Topic</th>
+          <th>Values</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in track.sensors track by $index">
+          <td>{{row.sensorType}}</td>
+          <td>{{row.topic}}</td>
+          <td>
+            <span ng-repeat="values in row.values">
+              {{values}}
+            </span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
