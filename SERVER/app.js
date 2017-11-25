@@ -127,6 +127,44 @@ app.get('/truck/:id?', function (req, res) {
     }
 });
 
+app.post('/accept/:id?', function (req, res) {
+  try {
+    Truck.findOne({number: req.params.id}).populate('sensors').exec(function (err, truck) {
+      truck.status = "Accepted";
+      truck.save(function (err) {
+            if (err) return err;
+            res.send({
+              status: "OK"
+            });
+          });
+      });
+    } catch (err) {
+        console.log(err);
+        res.send({
+          status: "ERROR"
+        });
+    }
+})
+
+app.post('/decline/:id?', function (req, res) {
+  try {
+    Truck.findOne({number: req.params.id}).populate('sensors').exec(function (err, truck) {
+      truck.status = "Rejected";
+      truck.save(function (err) {
+            if (err) return err;
+            res.send({
+              status: "OK"
+            });
+          });
+      });
+    } catch (err) {
+        console.log(err);
+        res.send({
+          status: "ERROR"
+        });
+    }
+})
+
 app.post('/addsensors/:id?', function (req, res) {
     try {
         var Sensors = [];
