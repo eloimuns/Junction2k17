@@ -2,5 +2,16 @@ app.controller('ContractsCtrl', function ($scope, $location, $routeParams, Servi
     $scope.init = function () {
 
     };
-    $scope.init();
+    $scope.init = function(){
+      Service.getContracts().then(function(success) {
+        if (success){
+          if (success.data){
+            $scope.contracts = success.data;
+            $scope.init();
+          }
+        }
+      })
+    };
+
+
 });
