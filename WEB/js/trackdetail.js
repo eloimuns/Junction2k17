@@ -149,7 +149,7 @@ app.controller('TrackDetailCtrl', function ($scope, $location, $routeParams, Ser
                                 }
                             }
                         });
-                        Service.modifyValuesEth($scope.mapaErrorsETH);
+                        Service.modifyValuesEth($routeParams.id, $scope.mapaErrorsETH);
                     }
                 }
             }

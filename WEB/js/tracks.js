@@ -9,12 +9,12 @@ app.controller('TrackCtrl', function($scope, $location, $rootScope, Service) {
     Service.addTrack($scope.newTrack).then(function(success) {
       if (success){
         if (success.data){
-          $scope.newTrack = {};
+          Service.createContract($scope.newTrack.number);
           $scope.init();
         }
       }
     })
-  }
+  };
 
   $scope.reset = function(){
     $scope.newTrack = {};

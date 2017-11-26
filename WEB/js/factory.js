@@ -14,14 +14,17 @@ app.factory('Service', function ($http) {
         addSensors: function (id, data) {
             return $http.post(url + '/addSensors/' + id, data);
         },
-        modifyValuesEth: function (data) {
-            return $http.put(url2 + '/addSensors/' + id, data);
-        },
         getAllContracts: function () {
-            return $http.get(url2 + '/getContracts');
+            return $http.get(url2 + '/api/get_all_contracts');
         },
         getContract: function (id) {
-            return $http.get(url2 + '/getContract/' + id);
+            return $http.get(url2 + '/api/get_contract_data_by_address/' + id);
+        },
+        createContract: function (id) {
+            return $http.post(url2 + '/api/generate_new_contract', {tracking_no : id});
+        },
+        modifyValuesEth: function (id, data) {
+            return $http.get(url2 + '/api/update_contract_data_by_tracking/' + id, data);
         },
         acceptTransaction: function (id) {
             return $http.post(url + '/accept/' + id);
