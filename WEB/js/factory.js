@@ -24,7 +24,7 @@ app.factory('Service', function ($http) {
             return $http.post(url2 + '/api/generate_new_contract', {tracking_no : id});
         },
         modifyValuesEth: function (id, data) {
-            return $http.get(url2 + '/api/update_contract_data_by_tracking/' + id, data);
+            return $http.put(url2 + '/api/update_contract_data_by_tracking/' + id, data);
         },
         acceptTransaction: function (id) {
             return $http.post(url + '/accept/' + id);

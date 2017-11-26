@@ -9,7 +9,7 @@ app.config(['$routeProvider', 'ChartJsProvider', function ($routeProvider, Chart
     }).when('/contracts', {
         templateUrl: 'views/contracts.html',
         controller: 'ContractsCtrl'
-    }).when('/contracts/:id', {
+    }).when('/contract/:id', {
         templateUrl: 'views/contract_details.html',
         controller: 'ContractDetailsCtrl'
     });

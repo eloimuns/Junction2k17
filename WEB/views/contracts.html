@@ -5,13 +5,15 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>Id</th>
-      <th>Actions</th>
+      <th>Tracking Number</th>
+      <th>Contract Address</th>
+      <th>View details</th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="row in trackList track by $index">
-      <td>{{row.number}}</td>
+    <tr ng-repeat="row in contracts track by $index">
+      <td>{{row.tracking_no}}</td>
+      <td>{{row.contract_address}}</td>
       <td><a ng-click="goTo(row)" href="">View Details</a></td>
     </tr>
   </tbody>
